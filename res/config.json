@@ -1,0 +1,17 @@
+[
+    {
+        "assignment_name": "classification_cat",
+        "source_type": "FILE", 
+        "source": "/root/projects/cpp/avd/BXC_RtspServer/data/test.mp4", 
+        "max_frame_size": 50, 
+        "assignment_type": "IMAGE_CLASSIFICATION", 
+        "model_name": "AlexNet",
+        "engine_path": "/root/projects/cpp/cpp_learning/nn/media_stream_analyzing/models/AlexNet.engine", 
+        "inImgWidth": 224, 
+        "inImgHeight": 224, 
+        "class_names": ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"],
+        "risk_cls_idx": [0,1,2,3,4,5,6,7,8,9], 
+        "max_result_size": 100,
+        "destination_url": "http://0.0.0.0:12021/test" 
+    }
+]

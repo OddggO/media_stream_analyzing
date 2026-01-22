@@ -1,0 +1,15 @@
+data/
+.vscode/
+build/
+*.mp4
+*.aac
+*.mp3
+*.zip
+*.rar
+*.pt
+*.pth
+*.onnx
+*.engine
+models/
+.vscode/
+cpp/build/
