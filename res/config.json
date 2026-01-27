@@ -2,7 +2,7 @@
     {
         "assignment_name": "classification_cat",
         "source_type": "FILE", 
-        "source": "/root/projects/cpp/avd/BXC_RtspServer/data/test.mp4", 
+        "source": "./test.mp4", 
         "max_frame_size": 50, 
         "assignment_type": "IMAGE_CLASSIFICATION", 
         "model_name": "AlexNet",
