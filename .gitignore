@@ -13,3 +13,4 @@ build/
 models/
 .vscode/
 cpp/build/
+install/

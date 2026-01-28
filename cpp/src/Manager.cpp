@@ -32,6 +32,7 @@ bool Manager::startServer()
     for (int i = 0; i < configs.size(); ++i) {
         const auto& config = configs[i];
 
+        // 读取配置项
         std::string assignment_name = config.at("assignment_name").get<std::string>();
         std::string source_type      = config.at("source_type").get<std::string>();
         std::string source           = config.at("source").get<std::string>();
@@ -50,8 +51,10 @@ bool Manager::startServer()
 
         // if (assignment_name.compare(""))
         StreamAnalyzer streamAnalyzer;
+        // 创建MediaWorker
         streamAnalyzer.mMediaWorker = std::make_shared<MediaWorker>("media_worker_" + std::to_string(i), assignment_name, 
             source_type, source, destination_url, max_frame_size);
+        // 创建TrtModelWorker
         streamAnalyzer.mTrtModelWorker = std::make_shared<TrtModelWorker>("trt_model_worker_" + std::to_string(i), model_name, 
             engine_path, inImgWidth, inImgHeight, AssignmentAnalyze::getPostProcessFunc(assignment_type), class_names, risk_cls_idx, streamAnalyzer.mMediaWorker, max_result_size);
         streamAnalyzer.mMediaWorker->start();
