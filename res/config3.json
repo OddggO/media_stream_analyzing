@@ -6,7 +6,7 @@
         "max_frame_size": 50, 
         "assignment_type": "IMAGE_CLASSIFICATION", 
         "model_name": "AlexNet",
-        "engine_path": "/root/projects/cpp/cpp_learning/nn/media_stream_analyzing/models/AlexNet.engine", 
+        "engine_path": "models/AlexNet.engine", 
         "inImgWidth": 224, 
         "inImgHeight": 224, 
         "class_names": ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"],

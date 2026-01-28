@@ -22,7 +22,7 @@ Model::PostProcessCb AssignmentAnalyze::getPostProcessFunc(std::string type)
     else if (type.compare("IMAGE_MULTI_CLASSIFICATION") == 0)
         return &imageMultiClassification;
     else if (type.compare("IMAGE_DETECTION") == 0)
-        return &imageDection;
+        return &imageDection_yolov5;
     else
         return nullptr;
 }
@@ -44,7 +44,10 @@ void AssignmentAnalyze::imageMultiClassification(const std::vector<float>& outpu
     // TODO
 }
 
-void AssignmentAnalyze::imageDection(const std::vector<float>& output, nlohmann::json& result, std::vector<std::string> className, std::vector<int> riskClsIdx)
+void AssignmentAnalyze::imageDection_yolov5(const std::vector<float>& output, nlohmann::json& result, std::vector<std::string> className, std::vector<int> riskClsIdx)
 {
-    // TODO
+    // 1.完成目标检测的后处理过程
+
+
+    // 2.根据检测结果，将风险类别写入result中
 }

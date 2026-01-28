@@ -18,5 +18,5 @@ namespace AssignmentAnalyze
 
     void imageClassification(const std::vector<float>& output, nlohmann::json& result, std::vector<std::string> className, std::vector<int> riskClsIdx);
     void imageMultiClassification(const std::vector<float>& output, nlohmann::json& result, std::vector<std::string> className, std::vector<int> riskClsIdx);
-    void imageDection(const std::vector<float>& output, nlohmann::json& result, std::vector<std::string> className, std::vector<int> riskClsIdx);
+    void imageDection_yolov5(const std::vector<float>& output, nlohmann::json& result, std::vector<std::string> className, std::vector<int> riskClsIdx);
 };

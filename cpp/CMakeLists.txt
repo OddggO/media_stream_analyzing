@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)     # 强制编译器必须使用规定标�
 
 # set(OPENCV_ROOT     "C:/myfiles/3rdparty/opencv/opencv-4.9.0-msvc/opencv-4.9.0-build/install")
 set(OPENCV_ROOT     "/opt/opencv/opencv-4.9.0/build")
-# set(TENSORRT_ROOT     "/opt/TensorRt/TensorRT-8.6.1.6") # pc
-set(TENSORRT_ROOT     "/opt/tensorrt/TensorRT-8.6.1.6") # work pc
-# set(CUDA_ROOT "/usr/local/cuda") # pc
-set(CUDA_ROOT "/usr/local/cuda-11.7") # work pc
+set(TENSORRT_ROOT     "/opt/TensorRt/TensorRT-8.6.1.6") # pc
+set(CUDA_ROOT "/usr/local/cuda") # pc
+# set(TENSORRT_ROOT     "/opt/tensorrt/TensorRT-8.6.1.6") # work pc
+# set(CUDA_ROOT "/usr/local/cuda-11.7") # work pc
 
 # include_directories(
 #     ${PROJECT_SOURCE_DIR}/include

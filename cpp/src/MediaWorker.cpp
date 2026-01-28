@@ -1,5 +1,7 @@
 #include "MediaWorker.h"
 #include "Log.h"
+#include "CapFrameReader.h"
+#include "DirFrameReaderLazy.h"
 #define MAX_READ_FAIL_NUM 5
 
 MediaWorker::MediaWorker(const std::string& threadName, const std::string& assignmentName, 
@@ -13,12 +15,25 @@ MediaWorker::MediaWorker(const std::string& threadName, const std::string& assig
         mSource.data(), mDestinationUrl.data());
     if (sourceType.compare("FILE") == 0) {
         mSourceType = FILE;
+        mFrameReader = std::make_shared<DirFrameReaderLazy>(source);
     }
     else if (sourceType.compare("RTSP") == 0) {
         mSourceType = RTSP;
+        mCap = cv::VideoCapture(source);
+        if (!mCap.isOpened()) {
+            LOGE("open source[%s] failed", source.data());
+            throw std::invalid_argument("open source " + source + " failed");
+        }
+        mFrameReader = std::make_shared<CapFrameReader>(mCap);
     }
     else if (sourceType.compare("RTMP") == 0) {
         mSourceType = RTMP;
+        mCap = cv::VideoCapture(source);
+        if (!mCap.isOpened()) {
+            LOGE("open source[%s] failed", source.data());
+            throw std::invalid_argument("open source " + source + " failed");
+        }
+        mFrameReader = std::make_shared<CapFrameReader>(mCap);
     } else {
         LOGI("invalid sourceType: %s", sourceType.data());
         throw std::invalid_argument("invalid sourceType, must in " + getSourceTypeDescription());
@@ -26,11 +41,7 @@ MediaWorker::MediaWorker(const std::string& threadName, const std::string& assig
     if (!parseUrl(destinationUrl)) {
         throw std::invalid_argument("parse url failed. url=" + destinationUrl);
     }
-    mCap = cv::VideoCapture(source);
-    if (!mCap.isOpened()) {
-        LOGE("open source[%s] failed", source.data());
-        throw std::invalid_argument("open source " + source + " failed");
-    }
+
 }
 
 MediaWorker::~MediaWorker()
@@ -97,7 +108,8 @@ void MediaWorker::run()
     while (!mIsStop) {
         ++cnt;
         // LOGI("read %d frame", +cnt);
-        if (!mCap.read(frame) || frame.empty()) {
+        // if (!mCap.read(frame) || frame.empty()) {
+        if (!mFrameReader->read(frame)) {
             ++failedCnt;
             if (failedCnt >= MAX_READ_FAIL_NUM) {
                 LOGI("read %s end/EOF", mSource.data());

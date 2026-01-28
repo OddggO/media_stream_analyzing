@@ -10,7 +10,7 @@
 #include <sys/stat.h>
 #endif // _WIN32
 
-class DirFrameReaderLazy: FrameReader
+class DirFrameReaderLazy:public FrameReader
 {
 public:
     DirFrameReaderLazy(const std::string& dirName);

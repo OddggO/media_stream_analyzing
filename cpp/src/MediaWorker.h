@@ -4,6 +4,8 @@
 #include "SafeQueue.h"
 #include <opencv2/opencv.hpp>
 #include "nlohmann/json.hpp"
+#include "FrameReader.h"
+#include <memory>
 #define DEFATULT_MAX_FRAME_SIZE 50
 
 class MediaWorker: public WorkerThread
@@ -45,4 +47,5 @@ private:
     cv::VideoCapture mCap;
     int mReadFrameCnt;
     // typedef void (*read_one_frame)(cv::Mat& frame);
+    std::shared_ptr<FrameReader> mFrameReader;
 };
