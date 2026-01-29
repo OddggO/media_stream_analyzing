@@ -45,7 +45,24 @@ bool Manager::startServer()
         int max_result_size          = config.at("max_result_size").get<int>();
         std::string destination_url  = config.at("destination_url").get<std::string>();
         const auto& class_names_json = config.at("class_names");
-        std::vector<std::string> class_names = class_names_json.get<std::vector<std::string>>();
+        // class_names可能是字符串数组， 也可能是文件名
+        std::vector<std::string> class_names;
+        if (class_names_json.is_string()) { // 如果class_names是字符串，表示是一个文件路径
+            std::ifstream class_names_file(class_names_json.get<std::string>());
+            if (!class_names_file.is_open()) {
+                LOGE("open class names file %s failed", class_names_json.get<std::string>().data());
+                throw std::invalid_argument("open class names file " + class_names_json.get<std::string>() + " failed");
+            }
+            std::string line;
+            while (std::getline(class_names_file, line)) {
+                class_names.emplace_back(line);
+            }
+        } else if (class_names_json.is_array()) { // 如果class_names是数组，表示是类别名称列表
+            class_names = class_names_json.get<std::vector<std::string>>();
+        } else {
+            LOGE("invalid class_names config, must be string or array");
+            throw std::invalid_argument("invalid class_names config, must be string or array");
+        }
         const auto& risk_idx_json = config.at("risk_cls_idx");
         std::vector<int> risk_cls_idx = risk_idx_json.get<std::vector<int>>();
 
@@ -69,7 +86,7 @@ bool Manager::startServer()
     for (int i = 0; i < mStreamAnalyzers.size(); ++i)
     {
         mStreamAnalyzers[i].mMediaWorker->join();
-        mStreamAnalyzers[i].mTrtModelWorker->stop();
+        mStreamAnalyzers[i].mTrtModelWorker->join();
     }
     mMessageWorker->stop();
     // mMessageWorker->join();

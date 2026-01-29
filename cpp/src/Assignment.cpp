@@ -9,7 +9,7 @@ Model::PostProcessCb AssignmentAnalyze::getPostProcessFunc(AssgnmentType type)
     case IMAGE_MULTI_CLASSIFICATION:
         return &imageMultiClassification;
     case IMAGE_DETECTION:
-        return &imageDection;
+        return &imageDection_yolov5;
     default:
         return nullptr;
     }

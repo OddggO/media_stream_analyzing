@@ -1,0 +1,3 @@
+# 将onnx转换为engine的命令
+# trtexec --onnx=resnet50_pretrained.onnx --saveEngine=resnet50_pretrained.engine --fp16
+# trtexec --onnx=mobilenet_v2_pretrained.onnx --saveEngine=mobilenet_v2_pretrained.engine --fp16

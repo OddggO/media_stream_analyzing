@@ -12,9 +12,10 @@ class MediaWorker: public WorkerThread
 {
 public:
     enum SourceType {
-        FILE = 0, 
+        MP4 = 0, 
         RTSP = 1,
-        RTMP = 2
+        RTMP = 2,
+        IMAGEDIR = 3
     };
 public:
     MediaWorker(const std::string& threadName, const std::string& assignmentName, const std::string& sourceType, const std::string& source, 

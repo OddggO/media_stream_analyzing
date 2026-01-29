@@ -7,6 +7,10 @@
 
 int main(int argc, char** argv)
 {
+    // 打印当前工作路径
+    char cwd[PATH_MAX];
+    getcwd(cwd, sizeof(cwd));
+    LOGI("Current working directory: %s", cwd);
     auto begin_time = std::chrono::steady_clock::now();
     if (argc != 2) {
         LOGE("usage: %s <file_path>", argv[0]);

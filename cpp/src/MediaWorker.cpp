@@ -13,9 +13,18 @@ MediaWorker::MediaWorker(const std::string& threadName, const std::string& assig
     LOGI("MediaWorker construct, threadName=%s, assignmentName=%s, "
         "source=%s, destinationUrl=%s", mThreadName.data(), mAssignmentName.data(), 
         mSource.data(), mDestinationUrl.data());
-    if (sourceType.compare("FILE") == 0) {
-        mSourceType = FILE;
+    if (sourceType.compare("IMAGEDIR") == 0) {
+        mSourceType = IMAGEDIR;
         mFrameReader = std::make_shared<DirFrameReaderLazy>(source);
+    }
+    else if (sourceType.compare("MP4") == 0) {
+        mSourceType = MP4;
+        mCap = cv::VideoCapture(source);
+        if (!mCap.isOpened()) {
+            LOGE("open source[%s] failed", source.data());
+            throw std::invalid_argument("open source " + source + " failed");
+        }
+        mFrameReader = std::make_shared<CapFrameReader>(mCap);
     }
     else if (sourceType.compare("RTSP") == 0) {
         mSourceType = RTSP;
@@ -119,7 +128,7 @@ void MediaWorker::run()
         }
         mQueue.push(frame);
     }
-    LOGI("thread %s end, source %s analyzed over, analyzed %d frame", mThreadName.data(), mSource.data(), cnt);
+    LOGI("thread %s end, source %s read over, read %d frame", mThreadName.data(), mSource.data(), cnt);
 }
 
 bool MediaWorker::parseUrl(const std::string& url)

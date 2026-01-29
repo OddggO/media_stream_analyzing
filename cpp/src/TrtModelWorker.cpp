@@ -9,14 +9,14 @@ TrtModelWorker::TrtModelWorker(const std::string& threadName, const std::string&
 {
     mTrtModel = new TrtModel(modelName, modelFilePath, inImgWidth, inImgHeight, cb, classNames, riskClsIdx); 
     LOGI("TrtModelWorker construct, threadName=%s, modelName=%s, modelFilePath=%s", 
-        mThreadName.data(), mTrtModel->modelName().data(), mTrtModel->modelFilePath());
+        mThreadName.data(), mTrtModel->modelName().data(), mTrtModel->modelFilePath().data());
     mTrtModel = new TrtModel(modelName, modelFilePath, inImgWidth, inImgHeight, cb, classNames, riskClsIdx);
 }
 
 TrtModelWorker::~TrtModelWorker()
 {
     LOGI("TrtModelWorker destroy, threadName=%s, modelName=%s, modelFilePath=%s", 
-        mThreadName.data(), mTrtModel->modelName(), mTrtModel->modelFilePath());
+        mThreadName.data(), mTrtModel->modelName().data(), mTrtModel->modelFilePath().data());
     delete mTrtModel;
 }
 

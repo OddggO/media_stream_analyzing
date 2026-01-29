@@ -24,9 +24,22 @@ bool TrtModel::modelInit()
     mRuntime = nvinfer1::createInferRuntime(mLogger);
     mEngine = mRuntime->deserializeCudaEngine(engineStr.data(), engineStr.size());
     mContext = mEngine->createExecutionContext();
-    
-    int inputIndex = mEngine->getBindingIndex("input");
-    int outputIndex = mEngine->getBindingIndex("output");
+
+    int nBindings = mEngine->getNbBindings();
+    if (nBindings != 2) {
+        LOGE("Only support model with 1 input and 1 output");
+        return false;
+    }
+
+    // for (int i = 0; i < nBindings; ++i) {
+    //     LOGI("Binding %d: name=%s, isInput=%s", i, mEngine->getBindingName(i), mEngine->bindingIsInput(i) ? "true" : "false");
+    // }
+    std::string inputName = mEngine->getBindingName(0);
+    std::string outputName = mEngine->getBindingName(1);
+    LOGI("Input name: %s, Output name: %s", inputName.data(), outputName.data());
+
+    int inputIndex = mEngine->getBindingIndex(inputName.data());
+    int outputIndex = mEngine->getBindingIndex(outputName.data());
     nvinfer1::Dims inputDims = mEngine->getBindingDimensions(inputIndex);
     nvinfer1::Dims outputDims = mEngine->getBindingDimensions(outputIndex);
 

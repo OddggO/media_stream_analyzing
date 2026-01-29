@@ -1,0 +1,17 @@
+[
+    {
+        "assignment_name": "classification_zebra",
+        "source_type": "IMAGEDIR", 
+        "source": "test_images_dir", 
+        "max_frame_size": 50, 
+        "assignment_type": "IMAGE_CLASSIFICATION", 
+        "model_name": "MobileNetV2",
+        "engine_path": "../res/mobilenet_v2_pretrained.engine", 
+        "inImgWidth": 224, 
+        "inImgHeight": 224, 
+        "class_names": "../res/imagenet_classes.txt",
+        "risk_cls_idx": [340], 
+        "max_result_size": 100,
+        "destination_url": "http://0.0.0.0:12021/test" 
+    }
+]
