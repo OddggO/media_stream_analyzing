@@ -88,7 +88,7 @@ bool Manager::startServer()
         mStreamAnalyzers[i].mMediaWorker->join();
         mStreamAnalyzers[i].mTrtModelWorker->join();
     }
-    mMessageWorker->stop();
-    // mMessageWorker->join();
+    // mMessageWorker->stop();
+    mMessageWorker->join();
     return true;
 }

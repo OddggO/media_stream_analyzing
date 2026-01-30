@@ -1,6 +1,7 @@
 #include "TrtModel.h"
 #include "Log.h"
 #include <fstream>
+#include <opencv2/core/utils/logger.hpp>
 
 TrtModel::TrtModel(const std::string& modelName, const std::string& modelFilePath, 
     int inImgWidth, int inImgHeight, PostProcessCb cb, 
@@ -17,6 +18,8 @@ TrtModel::~TrtModel()
 
 bool TrtModel::modelInit()
 {
+    LOGI("TrtModel modelInit, modelName=%s, modelFilePath=%s", 
+        mModelName.data(), mModelFilePath.data());
     std::ifstream file(mModelFilePath, std::ios::binary);
     std::string engineStr((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
@@ -55,6 +58,24 @@ bool TrtModel::modelInit()
     mBindings[1] = mDeviceOutput;
 
     mHostOutput.reserve(mOutputLen);
+    LOGI("Model initialized successfully, inputLen=%zu, outputLen=%zu", mInputLen, mOutputLen);
+
+    {
+        // LOGI("\n%s", cv::getBuildInformation().data());
+        // 测试能不能跑通
+        // 读取test.jpg
+        LOGI("realpath = %s", realpath("test.jpg", nullptr));
+        cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_VERBOSE);
+        cv::Mat testImg = cv::imread("test.jpg", cv::IMREAD_COLOR);
+        if (testImg.empty()) {
+            LOGI("read test.jpg failed, skip test inference");
+        } else {
+            nlohmann::json result;
+            inference(testImg, result);
+            LOGI("test inference result: %s", result.dump().data());
+        }
+    }
+    return true;
 }
 
 size_t TrtModel::getLenByDim(const nvinfer1::Dims& dims)

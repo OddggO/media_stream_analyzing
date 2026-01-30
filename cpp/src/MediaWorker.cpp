@@ -115,8 +115,6 @@ void MediaWorker::run()
     int failedCnt = 0;
     int cnt = 0;
     while (!mIsStop) {
-        ++cnt;
-        // LOGI("read %d frame", +cnt);
         // if (!mCap.read(frame) || frame.empty()) {
         if (!mFrameReader->read(frame)) {
             ++failedCnt;
@@ -126,6 +124,8 @@ void MediaWorker::run()
             }
             continue;
         }
+        ++cnt;
+        LOGI("read %d frame", cnt);
         mQueue.push(frame);
     }
     LOGI("thread %s end, source %s read over, read %d frame", mThreadName.data(), mSource.data(), cnt);

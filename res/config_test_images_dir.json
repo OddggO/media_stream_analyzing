@@ -2,7 +2,7 @@
     {
         "assignment_name": "classification_zebra",
         "source_type": "IMAGEDIR", 
-        "source": "test_images_dir", 
+        "source": "../res/test_images_dir", 
         "max_frame_size": 50, 
         "assignment_type": "IMAGE_CLASSIFICATION", 
         "model_name": "MobileNetV2",

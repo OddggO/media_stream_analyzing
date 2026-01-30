@@ -93,8 +93,10 @@ set(CMAKE_BUILD_RPATH
     ${CUDA_ROOT}/lib64
     ${OPENCV_ROOT}/lib
 )
-
+set(CMAKE_SKIP_BUILD_RPATH FALSE)
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 set(CMAKE_INSTALL_RPATH
+    "/usr/lib/x86_64-linux-gnu"
     ${TENSORRT_ROOT}/lib
     ${CUDA_ROOT}/lib64
     ${OPENCV_ROOT}/lib

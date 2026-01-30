@@ -1,5 +1,8 @@
 #include "DirFrameReaderLazy.h"
 #include "Log.h"
+#ifndef _WIN32
+#include <unistd.h>
+#endif // _WIN32
 
 DirFrameReaderLazy::DirFrameReaderLazy(const std::string& dirName): mDirName(dirName)
 {
@@ -29,7 +32,7 @@ bool DirFrameReaderLazy::read(cv::Mat& frame)
 #else
     if (!mDirStream) // 如果构造函数处opendir失败了, 为了避免在不知情的情况下调用read, 需要先判断一下
         return false;
-    while ((mEntry = readdir(mDirStream)) == nullptr) 
+    while ((mEntry = readdir(mDirStream)) != nullptr) 
     {
         if (strcmp(".", mEntry->d_name) == 0 || 
             strcmp("..", mEntry->d_name) == 0)
@@ -43,10 +46,15 @@ bool DirFrameReaderLazy::read(cv::Mat& frame)
             continue;
         if (!isImageFile(fullPath))
             continue;
-
-        frame = cv::imread(fullPath);
-        if (!frame.empty())
-            return true;
+        LOGI("cwd = %s", getcwd(nullptr, 0));
+        frame = cv::imread(fullPath, cv::IMREAD_COLOR);
+        LOGI("realpath = %s", realpath(fullPath.c_str(), nullptr));
+        LOGI("read image file: %s, frame shape: %d x %d x %d", fullPath.data(), frame.rows, frame.cols, frame.channels());
+        if (frame.empty()) {
+            LOGE("imread image file %s failed", fullPath.data());
+            continue;
+        }
+        return true;
     }
 
     return false; // EOF

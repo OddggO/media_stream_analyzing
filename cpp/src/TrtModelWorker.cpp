@@ -43,6 +43,8 @@ void TrtModelWorker::run()
     while (!mIsStop)
     {
         cv::Mat img = mMediaWorker->pop();
+        LOGI("Got one frame from MediaWorker, thread=%s, img size=(%d, %d)", 
+            mThreadName.data(), img.cols, img.rows);
         nlohmann::json result;
         mTrtModel->inference(img, result);
         mMediaWorker->addStreamInfo(result);
